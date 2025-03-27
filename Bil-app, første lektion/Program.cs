@@ -1,6 +1,8 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using CarApp;
+using TripApp;
+using Microsoft.VisualBasic.FileIO;
 using System.ComponentModel.Design;
-//Car App. Seneste opdatering 13-03. Begyndt at implementere klasser, list og enum. 
+using System.Collections.Generic;
 
 namespace Bil_app__første_lektion
 {
@@ -68,8 +70,25 @@ namespace Bil_app__første_lektion
     }
     //Static variabler - så de kan bruges tværs over metoderne:
 
+
     internal class Program
     {
+
+       
+        //Velkomst til programmet og menupunkt initialiseres
+
+        static void Main(string[] args)
+        {
+            // Toyota Corolla
+            Car toyotaCorollaCar = new Car("Toyota", "Corolla", 2015, FuelType.Diesel, 20); //previously 'Diesel'
+
+            // Toyota Yaris
+            Car toyotaYarisCar = new Car("Toyota", "Yaris", 2018, FuelType.Benzin, 25); //previously 'Benzin'
+
+            Car[] cars = { toyotaCorollaCar, toyotaYarisCar };
+
+            foreach (Car car in cars)
+=======
         static int mainMenuQuery = 1;
         static int readCarMenu1;
         static int readCarMenu2;
@@ -145,8 +164,21 @@ namespace Bil_app__første_lektion
             int loopRepeat1;
 
             do
-            {
 
+            Console.WriteLine("Enter trip distance: ");
+            double distance = Convert.ToDouble(Console.ReadLine());
+
+            DateTime start = new DateTime(2025, 03, 13, 12, 00, 00);
+            DateTime end = new DateTime(2025, 03, 13, 14, 00, 00);
+            Trip firstTrip = new Trip(distance, DateTime.Now, start, end);
+
+            List<Trip> trips = new List<Trip>();
+            trips.Add(firstTrip);
+
+            start = new DateTime(2025, 03, 13, 9, 00, 00);
+            end = new DateTime(2025, 03, 13, 16, 00, 00);
+            Trip secondTrip = new Trip(100, DateTime.Now, start, end);
+            trips.Add(secondTrip);
                 Console.WriteLine("\n------ Trip Modul ------");
 
                 //Brugeren vælger den bil som de har indtastet i modul 1
@@ -187,27 +219,7 @@ namespace Bil_app__første_lektion
                 int.TryParse(Console.ReadLine(), out loopRepeat1);
             }
 
-            while (loopRepeat1 == 1) ;
-        }
-
-            static void readTripEconomy()
-        {
-            Console.WriteLine("------ Trip Economy Modul ------");
-        }
-        static void readPalindrome()
-        {
-            Console.WriteLine("------ Palindrom-Check Modul ------");
-        }
-        static void readCarSingularData()
-        {
-            int readCarMenu3;
-            int menuChoice3;
-
-            Console.WriteLine("\n------ Detaljer Om Enkelt Bil Modul ------");
-            Console.WriteLine("\n\t- Vælg en bil ved at taste et tal mellem 1 og 6:");
-
-            int.TryParse(Console.ReadLine(), out readCarMenu3);
-
+                Console.WriteLine($"The trip duration is: {duration}");
             do
             {
                 switch (readCarMenu3)
@@ -220,23 +232,15 @@ namespace Bil_app__første_lektion
                         break;
                 }
 
-                Console.WriteLine("\n\nVil du se data for en bil mere? Tast '1'.\n\nHvis ikke, tryk på en hvilken som helst anden tast for at vende retur til hovedmenuen");
-                int.TryParse(Console.ReadLine(), out menuChoice3);
+
             }
 
-            while (menuChoice3 == 1) ;
             
-        }
 
-        static void readCarTotalData()
-        {
-            Console.WriteLine("------ Detaljer Om Alle Biler Modul ------\n\n");
+            //TimeSpan duration = firstTrip.CalculateDuration();
 
 
-            Console.WriteLine("\n\nTryk på en vilkårlig tast for at hente hovedmenuen");
-
-            Console.ReadKey();
-        }
+            //Console.WriteLine($"The trip duration is: {duration}");
 
         //Følgende metode indeholder oplysninger om hver respektive bil
 
@@ -327,6 +331,7 @@ namespace Bil_app__første_lektion
             }
             while (mainMenuQuery == 1);
         }
+
     }
 }
 

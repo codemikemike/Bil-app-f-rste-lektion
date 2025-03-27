@@ -1,21 +1,49 @@
 using System.Globalization;
+using Microsoft.VisualBasic;
+using TripApp;
 
 namespace CarApp;
 
+public enum FuelType
+{
+    Benzin,
+    Diesel,
+    Electric,
+    Hybrid
+}
+
 public class Car
 {
-    private string brand;
-    private string model;
-    private int year;
-    private char fuelType;
-    private bool isEngineOn;
-    private int odometer;
-    private double kilometersPerLiter;
-    public Car(string brandInput, string modelInput, int yearInput, char fuelTypeInput, double kilometersPerLiterInput)
+    public string brand
     {
-        brand = !String.IsNullOrEmpty(brandInput) ? brandInput : "Unknown";
+        get
+        {
+            return brand;
+        }
+
+        set
+        {
+            if (brand == null)
+            {
+                throw new ArgumentException("Input må ikke være blank.");
+            }
+            brand = value;
+        }
+    }
+    
+    public string model { get; set; }
+    public int year { get; set; }
+    //private char fuelType { get; set; }
+    FuelType fuelType { get; set; } // replaces above
+    public bool isEngineOn { get; set; }
+    public int odometer { get; set; }
+    public double kilometersPerLiter { get; set; }
+    public Car(string brandInput, string modelInput, int yearInput, FuelType fuelTypeInput, double kilometersPerLiterInput) //replaced "char" with FuelType
+    {
+        brand = brandInput;
         model = !String.IsNullOrEmpty(modelInput) ? modelInput : "Unknown";
         year = yearInput > 1886 ? yearInput : DateTime.Now.Year;
+        //fuelType = fuelTypeInput;
         fuelType = fuelTypeInput;
         kilometersPerLiter = kilometersPerLiterInput > 0 ? kilometersPerLiterInput : 0;
     }
@@ -28,15 +56,15 @@ public class Car
             Console.WriteLine("Invalid input");
             return;
         }
-        
+
         isEngineOn = true;
-        
+
         odometer += tripDistanceInput;
-        
+
         isEngineOn = false;
     }
 
-    public double CalculateTripPrice(double fuelPriceInput, int tripDistanceInput)
+    /*public double CalculateTripPrice(double fuelPriceInput, int tripDistanceInput)
     {
         // Tjek om brændstofpris eller distance er mindre end 0
         if (fuelPriceInput <= 0 || tripDistanceInput <= 0)
@@ -44,58 +72,45 @@ public class Car
             Console.WriteLine("Invalid input");
             return 0;
         }
-        
-        return fuelPriceInput * (tripDistanceInput / kilometersPerLiter);
-    }
 
-    public string[] GetCarDetails()
+        return fuelPriceInput * (tripDistanceInput / kilometersPerLiter);
+    }*/
+
+    public void PrintCarDetails() //brug console.writeline
     {
-        // Return car details
-        return [
-            brand,
-            model,
-            Convert.ToString(year),
-            GetFuelType(),
-            Convert.ToString(isEngineOn),
-            Convert.ToString(odometer),
-            Convert.ToString(kilometersPerLiter, CultureInfo.CurrentCulture),
-        ];
+        Console.WriteLine("Brand: " + brand);
+        Console.WriteLine("Model: " + model);
+        Console.WriteLine("Year: " + year);
+        Console.WriteLine("Fuel type: " + GetFuelTypeString());
+        Console.WriteLine("Is engine on: " + isEngineOn);
+        Console.WriteLine("Odometer: " + odometer);
+        Console.WriteLine("Kilometers per liter: " + kilometersPerLiter);
+
+        Console.WriteLine("-------------------------------------------------");
+
     }
-    
-    public string GetBrand()
+    private string GetFuelTypeString()
     {
-        return brand;
+        switch (fuelType)
+        {
+            case FuelType.Benzin:
+                return "Petrol";
+            case FuelType.Diesel:
+                return "Diesel";            
+            case FuelType.Electric:
+                return "Electric";
+            case FuelType.Hybrid:
+                return "Hybrid";
+            default:
+                return "Unknown";
+        }
     }
-    
-    public void SetBrand(string brandInput)
+    /*
+    private string GetFuelTypeString()
     {
-        brand = !String.IsNullOrEmpty(brandInput) ? brandInput : "Unknown";
-    }
-    
-    public string GetModel()
-    {
-        return model;
-    }
-    
-    public void SetModel(string modelInput)
-    {
-        model = !String.IsNullOrEmpty(modelInput) ? modelInput : "Unknown";
-    }
-    
-    public int GetYear()
-    {
-        return year;
-    }
-    
-    public void SetYear(int yearInput)
-    {
-        year = yearInput > 1886 ? yearInput : DateTime.Now.Year;
-    }
-    
-    public string GetFuelType()
-    {
-        switch (char.ToUpper(fuelType)) {
-            case 'D':
+        switch (char.ToUpper((char)fuelType)) //added (char)
+        {
+            case FuelType.Benzin:
                 return "Diesel";
             case 'P':
                 return "Petrol";
@@ -103,16 +118,6 @@ public class Car
                 return "Unknown";
         }
     }
-    
-    public void SetFuelType(char fuelTypeInput)
-    {
-        fuelType = fuelTypeInput;
-    }
-    
-    public bool GetIsEngineOn()
-    {
-        return isEngineOn;
-    }
-    
-    
+    */
+
 }
