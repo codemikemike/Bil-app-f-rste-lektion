@@ -57,7 +57,7 @@ namespace Bil_app__første_lektion
 
             }
 
-
+            
 
             //TimeSpan duration = firstTrip.CalculateDuration();
 

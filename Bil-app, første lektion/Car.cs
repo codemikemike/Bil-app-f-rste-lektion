@@ -14,17 +14,33 @@ public enum FuelType
 
 public class Car
 {
-    private string brand { get; set; }
-    private string model { get; set; }
-    private int year { get; set; }
+    public string brand
+    {
+        get
+        {
+            return brand;
+        }
+
+        set
+        {
+            if (brand == null)
+            {
+                throw new ArgumentException("Input må ikke være blank.");
+            }
+            brand = value;
+        }
+    }
+    
+    public string model { get; set; }
+    public int year { get; set; }
     //private char fuelType { get; set; }
     FuelType fuelType { get; set; } // replaces above
-    private bool isEngineOn { get; set; }
-    private int odometer { get; set; }
-    private double kilometersPerLiter { get; set; }
+    public bool isEngineOn { get; set; }
+    public int odometer { get; set; }
+    public double kilometersPerLiter { get; set; }
     public Car(string brandInput, string modelInput, int yearInput, FuelType fuelTypeInput, double kilometersPerLiterInput) //replaced "char" with FuelType
     {
-        brand = !String.IsNullOrEmpty(brandInput) ? brandInput : "Unknown";
+        brand = brandInput;
         model = !String.IsNullOrEmpty(modelInput) ? modelInput : "Unknown";
         year = yearInput > 1886 ? yearInput : DateTime.Now.Year;
         //fuelType = fuelTypeInput;
@@ -48,7 +64,7 @@ public class Car
         isEngineOn = false;
     }
 
-    public double CalculateTripPrice(double fuelPriceInput, int tripDistanceInput)
+    /*public double CalculateTripPrice(double fuelPriceInput, int tripDistanceInput)
     {
         // Tjek om brændstofpris eller distance er mindre end 0
         if (fuelPriceInput <= 0 || tripDistanceInput <= 0)
@@ -58,7 +74,7 @@ public class Car
         }
 
         return fuelPriceInput * (tripDistanceInput / kilometersPerLiter);
-    }
+    }*/
 
     public void PrintCarDetails() //brug console.writeline
     {

@@ -9,10 +9,12 @@ namespace TripApp
 {
     public class Trip
     {
-        private double distance { get; set; }
-        private DateTime tripDate { get; set; }
-        private DateTime startTime{ get; set; }
-        private DateTime endTime{ get; set; }
+        public double kilometersPerLiterInput { get; set; }
+
+        public double distance { get; set; }
+        public DateTime tripDate { get; set; }
+        public DateTime startTime{ get; set; }
+        public DateTime endTime{ get; set; }
 
 
         public Trip(double _distance, DateTime _tripDate, DateTime _startTime, DateTime _endTime) //constructor
